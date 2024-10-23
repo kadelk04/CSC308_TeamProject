@@ -1,8 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { SpotifyAuthProvider } from './hooks/useSpotifyAuth';
 import { Profile } from './components/Profile';
+
+import Button from '@mui/material/Button';
 
 function App() {
   const REDIRECT_URI = 'http://localhost:3000';
@@ -14,7 +16,7 @@ function App() {
     <SpotifyAuthProvider>
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <Button variant="contained">Hello world</Button>
           <a
             className="App-link"
             href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}

@@ -27,7 +27,7 @@ export const PlaylistWidget = ({
     <Card
       sx={{
         width: '250px',
-        height: '400px',
+        height: '480px',
         backgroundColor: '#FEF7FF',
         borderRadius: '20px',
       }}
@@ -46,7 +46,7 @@ export const PlaylistWidget = ({
             }}
           />
         ) : null}
-        <Box sx={{ padding: 2 }}>
+        <Box sx={{ padding: 2,  border: '1px solid red'}} >
           <Typography
             gutterBottom
             sx={{ color: 'text.secondary', fontSize: 14 }}
@@ -60,7 +60,7 @@ export const PlaylistWidget = ({
             {title}
           </Typography>
         </Box>
-        <Box sx={{ padding: 2 }}>
+        <Box sx={{ padding: 2, border: '1px solid blue'}}>
           <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
             {genres.map((genre) => (
               <Chip key={genre} label={genre} size="small" />
@@ -70,7 +70,7 @@ export const PlaylistWidget = ({
         <Stack
           direction="row"
           spacing={2}
-          sx={{ justifyContent: 'flex-end', marginTop: '10%', width: '100%' }}
+          sx={{ justifyContent: 'flex-end', marginTop: '10%', width: '100%', border: '1px solid green' }}
         >
           <FavoriteBorderOutlined></FavoriteBorderOutlined>
           <AddOutlined></AddOutlined>

@@ -9,12 +9,20 @@ import { Navbar } from './components/common/Navbar';
 import { Theme } from './components/common/Theme';
 
 import '@fontsource/roboto';
-import PrivateRoute from './components/common/PrivateRoute';
+import PrivateRoute, {
+  PrivateRouteProps,
+} from './components/common/PrivateRoute';
 import { grey } from '@mui/material/colors';
 
 export default function App() {
   const [expanded, setExpanded] = React.useState(false);
   let signedIn = localStorage.getItem('spotify_token');
+
+  const defaultProtectedRouteProps: Omit<PrivateRouteProps, 'outlet'> = {
+    authenticationPath: '/login',
+    redirectPath: '/', // sessionContext.redirectPath,
+    setRedirectPath: () => {}, //setRedirectPath
+  };
 
   return (
     <Theme>
@@ -41,8 +49,29 @@ export default function App() {
           >
             <Routes>
               <Route path="/login" element={<Login />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/profile" element={<Profile />} />
+
+              <Route
+                path="/dashboard"
+                element={
+                  <PrivateRoute
+                    authenticationPath="/login"
+                    redirectPath="/dashboard"
+                    setRedirectPath={() => {}}
+                    outlet={<Dashboard />}
+                  />
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <PrivateRoute
+                    authenticationPath="/login"
+                    redirectPath="/profile"
+                    setRedirectPath={() => {}}
+                    outlet={<Profile />}
+                  />
+                }
+              />
             </Routes>
           </Box>
         </Box>

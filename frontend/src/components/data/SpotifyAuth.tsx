@@ -115,6 +115,10 @@ export const getAccessToken = () => {
   return window.localStorage.getItem('spotify_token');
 };
 
+export const isAuthed = () => {
+  return !!window.localStorage.getItem('jwttoken');
+};
+
 export const logout = () => {
   window.localStorage.removeItem('spotify_token');
   window.localStorage.removeItem('spotify_refresh_token');

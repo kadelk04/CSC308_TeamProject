@@ -1,16 +1,40 @@
-import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
-import { getAccessToken } from '../data/SpotifyAuth';
+import { useEffect } from 'react';
+import { Navigate, useLocation } from 'react-router';
+import { getAccessToken, isAuthed } from '../data/SpotifyAuth';
 
-interface PrivateRouteProps {
-  element: React.ComponentType<any>;
-  path: string;
-  exact?: boolean;
-}
-
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ element: Component }) => {
-  const accessToken = getAccessToken();
-  return accessToken ? <Component /> : <Navigate to="/login" />;
+export type PrivateRouteProps = {
+  authenticationPath: string;
+  redirectPath: string;
+  setRedirectPath: (path: string) => void;
+  outlet: JSX.Element;
 };
 
-export default PrivateRoute;
+const useAuth = () => {
+  return getAccessToken() && isAuthed();
+};
+
+export default function PrivateRoute({
+  authenticationPath,
+  redirectPath,
+  setRedirectPath,
+  outlet,
+}: PrivateRouteProps) {
+  const currentLocation = useLocation();
+  const isAuthenticated = useAuth();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setRedirectPath(currentLocation.pathname);
+    }
+  }, [isAuthenticated, setRedirectPath, currentLocation]);
+
+  if (isAuthenticated && redirectPath === currentLocation.pathname) {
+    return outlet;
+  } else {
+    return (
+      <Navigate
+        to={{ pathname: isAuthenticated ? redirectPath : authenticationPath }}
+      />
+    );
+  }
+}
